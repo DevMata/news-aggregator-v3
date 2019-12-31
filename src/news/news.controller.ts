@@ -3,6 +3,7 @@ import { NewsService } from './news.service';
 import { Observable } from 'rxjs';
 import { New } from './interfaces/New.interface';
 import { AuthGuard } from '@nestjs/passport';
+import { NewsParamsDto } from './dto/news-params.dto';
 
 @Controller('news')
 export class NewsController {
@@ -10,7 +11,7 @@ export class NewsController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  findAll(@Query('q') q: string, @Query('source') source: string): Observable<New[]> {
-    return this.newsService.switchSourceSearch(q, source);
+  findAll(@Query() newsParamsDto: NewsParamsDto): Observable<New[]> {
+    return this.newsService.switchSourceSearch(newsParamsDto.q, newsParamsDto.source);
   }
 }
