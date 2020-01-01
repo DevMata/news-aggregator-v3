@@ -2,15 +2,12 @@ import {
   Controller,
   Get,
   Post,
-  UsePipes,
-  ValidationPipe,
   Body,
   Param,
   Put,
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -24,6 +21,8 @@ import { UserSerialize } from './dto/users.serializer';
 import { AuthGuard } from '@nestjs/passport';
 import { ShareArticleDto } from './dto/shareArticle.dto';
 import { UserIdDto } from './dto/user-id.dto';
+import { LoggedUser } from './user.decorator';
+import { UserBody } from 'src/login/dto/userbody.dto';
 
 @Controller('users')
 export class UsersController {
@@ -53,9 +52,9 @@ export class UsersController {
   changePassword(
     @Param() userIdParam: UserIdDto,
     @Body() changePasswordDto: ChangePasswordDto,
-    @Req() req,
+    @LoggedUser() User: UserBody,
   ): Promise<UpdateResult> {
-    return this.userService.changePassword(userIdParam.userId, changePasswordDto.password, req.user);
+    return this.userService.changePassword(userIdParam.userId, changePasswordDto.password, User);
   }
 
   @Post(':userId/articles')
