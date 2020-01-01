@@ -6,17 +6,17 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import { Repository, UpdateResult } from 'typeorm';
 import { CreateUserDto } from './dto/user.dto';
 import { HashHelper } from 'src/common/hash.helper';
-import { ArticlesService } from './articles/articles.service';
-import { UsersToArticlesService } from './userstoarticles/userstoarticles.service';
-import { SaveArticleDto } from './articles/articles.dto';
-import { Article } from './articles/articles.entity';
-import { UsersToArticles } from './userstoarticles/userstoarticles.entity';
+import { ArticlesService } from '../articles/articles.service';
+import { UsersToArticlesService } from '../users_to_articles/users-to-articles.service';
+import { SaveArticleDto } from '../articles/dto/articles.dto';
+import { Article } from '../articles/entities/articles.entity';
+import { UsersToArticles } from '../users_to_articles/entities/userstoarticles.entity';
 import { ShareArticleDto } from './dto/shareArticle.dto';
-import { UserBody } from 'src/login/dto/userbody.dto';
+import { UserBody } from 'src/authentication/dto/userbody.dto';
 
 @Injectable()
 export class UsersService {

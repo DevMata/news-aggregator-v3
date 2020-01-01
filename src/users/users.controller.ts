@@ -9,20 +9,20 @@ import {
   ClassSerializerInterceptor,
   UseGuards,
 } from '@nestjs/common';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/user.dto';
 import { ChangePasswordDto } from './dto/password.dto';
 import { UpdateResult } from 'typeorm';
-import { SaveArticleDto } from './articles/articles.dto';
-import { Article } from './articles/articles.entity';
-import { UsersToArticles } from './userstoarticles/userstoarticles.entity';
+import { SaveArticleDto } from '../articles/dto/articles.dto';
+import { Article } from '../articles/entities/articles.entity';
+import { UsersToArticles } from '../users_to_articles/entities/userstoarticles.entity';
 import { UserSerialize } from './dto/users.serializer';
 import { AuthGuard } from '@nestjs/passport';
 import { ShareArticleDto } from './dto/shareArticle.dto';
 import { UserIdDto } from './dto/user-id.dto';
 import { LoggedUser } from './user.decorator';
-import { UserBody } from 'src/login/dto/userbody.dto';
+import { UserBody } from 'src/authentication/dto/userbody.dto';
 
 @Controller('users')
 export class UsersController {
