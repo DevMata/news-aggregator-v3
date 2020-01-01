@@ -2,27 +2,27 @@ import {
   Controller,
   Get,
   Post,
-  UsePipes,
-  ValidationPipe,
   Body,
   Param,
   Put,
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
-  Req,
 } from '@nestjs/common';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/user.dto';
 import { ChangePasswordDto } from './dto/password.dto';
 import { UpdateResult } from 'typeorm';
-import { SaveArticleDto } from './articles/articles.dto';
-import { Article } from './articles/articles.entity';
-import { UsersToArticles } from './userstoarticles/userstoarticles.entity';
+import { SaveArticleDto } from '../articles/dto/articles.dto';
+import { Article } from '../articles/entities/articles.entity';
+import { UsersToArticles } from '../users_to_articles/entities/userstoarticles.entity';
 import { UserSerialize } from './dto/users.serializer';
 import { AuthGuard } from '@nestjs/passport';
 import { ShareArticleDto } from './dto/shareArticle.dto';
+import { UserIdDto } from './dto/user-id.dto';
+import { LoggedUser } from './user.decorator';
+import { UserBody } from 'src/authentication/dto/userbody.dto';
 
 @Controller('users')
 export class UsersController {
@@ -34,14 +34,12 @@ export class UsersController {
   }
 
   @Get(':userId')
-  @UseInterceptors(ClassSerializerInterceptor)
-  findUser(@Param('userId') userId: string): Promise<UserSerialize> {
-    return this.userService.findUserById(userId);
+  findUser(@Param() userIdParam: UserIdDto): Promise<User> {
+    return this.userService.findUserById(userIdParam.userId);
   }
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
-  @UsePipes(new ValidationPipe({ transform: true }))
   createUser(
     @Body()
     createUserDto: CreateUserDto,
@@ -51,32 +49,29 @@ export class UsersController {
 
   @Put(':userId/changePassword')
   @UseGuards(AuthGuard('jwt'))
-  @UsePipes(new ValidationPipe({ transform: true }))
   changePassword(
-    @Param('userId') userId: string,
+    @Param() userIdParam: UserIdDto,
     @Body() changePasswordDto: ChangePasswordDto,
-    @Req() req,
+    @LoggedUser() User: UserBody,
   ): Promise<UpdateResult> {
-    return this.userService.changePassword(userId, changePasswordDto.password, req.user);
+    return this.userService.changePassword(userIdParam.userId, changePasswordDto.password, User);
   }
 
   @Post(':userId/articles')
   @UseGuards(AuthGuard('jwt'))
-  @UsePipes(new ValidationPipe({ transform: true }))
-  saveArticleToUser(@Param('userId') userId: string, @Body() saveArticleDto: SaveArticleDto): Promise<UsersToArticles> {
-    return this.userService.saveArticleToUser(userId, saveArticleDto);
+  saveArticleToUser(@Param() userIdParam: UserIdDto, @Body() saveArticleDto: SaveArticleDto): Promise<UsersToArticles> {
+    return this.userService.saveArticleToUser(userIdParam.userId, saveArticleDto);
   }
 
   @Get(':userId/articles')
   @UseGuards(AuthGuard('jwt'))
-  getUserArticles(@Param('userId') userId: string): Promise<Article[]> {
-    return this.userService.getUserArticles(userId);
+  getUserArticles(@Param() userIdParam: UserIdDto): Promise<Article[]> {
+    return this.userService.getUserArticles(userIdParam.userId);
   }
 
   @Post(':userId/share')
   @UseGuards(AuthGuard('jwt'))
-  @UsePipes(new ValidationPipe({ transform: true }))
-  shareArticle(@Param('userId') userId: string, @Body() shareArticleDto: ShareArticleDto): Promise<UsersToArticles> {
-    return this.userService.shareArticle(userId, shareArticleDto);
+  shareArticle(@Param() userIdParam: UserIdDto, @Body() shareArticleDto: ShareArticleDto): Promise<UsersToArticles> {
+    return this.userService.shareArticle(userIdParam.userId, shareArticleDto);
   }
 }
