@@ -15,7 +15,7 @@ import { CreateUserDto } from './dto/user.dto';
 import { ChangePasswordDto } from './dto/password.dto';
 import { UpdateResult } from 'typeorm';
 import { SaveArticleDto } from '../articles/articles.dto';
-import { Article } from '../articles/articles.entity';
+import { Article } from '../articles/entities/articles.entity';
 import { UsersToArticles } from '../userstoarticles/userstoarticles.entity';
 import { UserSerialize } from './dto/users.serializer';
 import { AuthGuard } from '@nestjs/passport';
