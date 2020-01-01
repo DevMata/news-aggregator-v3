@@ -16,7 +16,7 @@ import { SaveArticleDto } from '../articles/articles.dto';
 import { Article } from '../articles/articles.entity';
 import { UsersToArticles } from '../userstoarticles/userstoarticles.entity';
 import { ShareArticleDto } from './dto/shareArticle.dto';
-import { UserBody } from 'src/login/dto/userbody.dto';
+import { UserBody } from 'src/authentication/dto/userbody.dto';
 
 @Injectable()
 export class UsersService {

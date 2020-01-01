@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NewsModule } from './news/news.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { LoginModule } from './login/login.module';
+import { LoginModule } from './authentication/login.module';
 
 @Module({
   imports: [

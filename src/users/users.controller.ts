@@ -22,7 +22,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ShareArticleDto } from './dto/shareArticle.dto';
 import { UserIdDto } from './dto/user-id.dto';
 import { LoggedUser } from './user.decorator';
-import { UserBody } from 'src/login/dto/userbody.dto';
+import { UserBody } from 'src/authentication/dto/userbody.dto';
 
 @Controller('users')
 export class UsersController {
