@@ -14,7 +14,7 @@ import { ArticlesService } from '../articles/articles.service';
 import { UsersToArticlesService } from '../userstoarticles/userstoarticles.service';
 import { SaveArticleDto } from '../articles/dto/articles.dto';
 import { Article } from '../articles/entities/articles.entity';
-import { UsersToArticles } from '../userstoarticles/userstoarticles.entity';
+import { UsersToArticles } from '../userstoarticles/entities/userstoarticles.entity';
 import { ShareArticleDto } from './dto/shareArticle.dto';
 import { UserBody } from 'src/authentication/dto/userbody.dto';
 
