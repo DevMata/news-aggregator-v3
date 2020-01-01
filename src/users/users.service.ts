@@ -10,11 +10,11 @@ import { User } from './user.entity';
 import { Repository, UpdateResult } from 'typeorm';
 import { CreateUserDto } from './dto/user.dto';
 import { HashHelper } from 'src/common/hash.helper';
-import { ArticlesService } from './articles/articles.service';
-import { UsersToArticlesService } from './userstoarticles/userstoarticles.service';
-import { SaveArticleDto } from './articles/articles.dto';
-import { Article } from './articles/articles.entity';
-import { UsersToArticles } from './userstoarticles/userstoarticles.entity';
+import { ArticlesService } from '../articles/articles.service';
+import { UsersToArticlesService } from '../userstoarticles/userstoarticles.service';
+import { SaveArticleDto } from '../articles/articles.dto';
+import { Article } from '../articles/articles.entity';
+import { UsersToArticles } from '../userstoarticles/userstoarticles.entity';
 import { ShareArticleDto } from './dto/shareArticle.dto';
 import { UserBody } from 'src/login/dto/userbody.dto';
 

@@ -4,8 +4,8 @@ import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { HashHelper } from 'src/common/hash.helper';
-import { ArticlesModule } from './articles/articles.module';
-import { UsersToArticlesModule } from './userstoarticles/userstoarticles.module';
+import { ArticlesModule } from '../articles/articles.module';
+import { UsersToArticlesModule } from '../userstoarticles/userstoarticles.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), ArticlesModule, UsersToArticlesModule],
