@@ -14,7 +14,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/user.dto';
 import { ChangePasswordDto } from './dto/password.dto';
 import { UpdateResult } from 'typeorm';
-import { SaveArticleDto } from '../articles/articles.dto';
+import { SaveArticleDto } from '../articles/dto/articles.dto';
 import { Article } from '../articles/entities/articles.entity';
 import { UsersToArticles } from '../userstoarticles/userstoarticles.entity';
 import { UserSerialize } from './dto/users.serializer';

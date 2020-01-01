@@ -12,7 +12,7 @@ import { CreateUserDto } from './dto/user.dto';
 import { HashHelper } from 'src/common/hash.helper';
 import { ArticlesService } from '../articles/articles.service';
 import { UsersToArticlesService } from '../userstoarticles/userstoarticles.service';
-import { SaveArticleDto } from '../articles/articles.dto';
+import { SaveArticleDto } from '../articles/dto/articles.dto';
 import { Article } from '../articles/entities/articles.entity';
 import { UsersToArticles } from '../userstoarticles/userstoarticles.entity';
 import { ShareArticleDto } from './dto/shareArticle.dto';
