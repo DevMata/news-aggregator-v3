@@ -40,11 +40,11 @@ export class UsersController {
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
-  createUser(
+  async createUser(
     @Body()
     createUserDto: CreateUserDto,
   ): Promise<UserSerialize> {
-    return this.userService.createUser(createUserDto);
+    return new UserSerialize(await this.userService.createUser(createUserDto));
   }
 
   @Put(':userId/changePassword')
