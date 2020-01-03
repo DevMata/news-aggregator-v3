@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NewsModule } from './news/news.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { LoginModule } from './authentication/login.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -27,7 +27,7 @@ import { LoginModule } from './authentication/login.module';
       },
       inject: [ConfigService],
     }),
-    LoginModule,
+    AuthenticationModule,
   ],
 })
 export class AppModule implements NestModule {
