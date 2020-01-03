@@ -149,3 +149,5 @@ class Post {
 # Removed antipatterns
 
 1. Blob: one example on this antipattern in my API was the users service. In the first versions of this service I have a multiple functions more or less related with the logic behind users persistance. The file reached more than 100 lines of code. I think was an obvious antipattern for the size of the file, the coupled logic.
+
+2. Functional decomposition: in files related to authentication logic there was file with classes with function names that does not extend the OOP principles and does not have relations of OO kind.
