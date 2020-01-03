@@ -1,25 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 import { Article } from './entities/articles.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 import { SaveArticleDto } from './dto/articles.dto';
+import { ArticleRepository } from './repositories/articles.repository';
 
 @Injectable()
 export class ArticlesService {
-  constructor(@InjectRepository(Article) private readonly articlesRepository: Repository<Article>) {}
-
-  private async searchArticle(saveNewDto: SaveArticleDto): Promise<Article> {
-    const searchedNew = await this.articlesRepository.findOne({ webUrl: saveNewDto.webUrl });
-
-    return searchedNew;
-  }
+  constructor(private readonly articleRepo: ArticleRepository) {}
 
   async saveArticle(saveArticleDto: SaveArticleDto): Promise<Article> {
-    const searcheNew = await this.searchArticle(saveArticleDto);
-    if (searcheNew) {
-      return searcheNew;
-    }
-
-    return this.articlesRepository.save(saveArticleDto);
+    return this.articleRepo.saveArticle(saveArticleDto);
   }
 }

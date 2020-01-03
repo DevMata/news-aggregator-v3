@@ -1,68 +1,50 @@
-import {
-  Injectable,
-  NotFoundException,
-  ConflictException,
-  MethodNotAllowedException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, MethodNotAllowedException, UnauthorizedException } from '@nestjs/common';
 import { User } from './entities/user.entity';
-import { Repository, UpdateResult } from 'typeorm';
+import { UpdateResult } from 'typeorm';
 import { CreateUserDto } from './dto/user.dto';
 import { HashHelper } from 'src/common/hash.helper';
 import { ArticlesService } from '../articles/articles.service';
 import { UsersToArticlesService } from '../users_to_articles/users-to-articles.service';
 import { SaveArticleDto } from '../articles/dto/articles.dto';
 import { Article } from '../articles/entities/articles.entity';
-import { UsersToArticles } from '../users_to_articles/entities/userstoarticles.entity';
+import { UsersToArticles } from '../users_to_articles/entities/users-to-articles.entity';
 import { ShareArticleDto } from './dto/shareArticle.dto';
 import { UserBody } from 'src/authentication/dto/userbody.dto';
+import { UserRepository } from './repositories/user-repository.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly articlesService: ArticlesService,
     private readonly usersToArticlesService: UsersToArticlesService,
     private readonly hashHelper: HashHelper,
+    private readonly userRepository: UserRepository,
   ) {}
 
   findAll(): Promise<User[]> {
-    return this.userRepository.find({ select: ['userId', 'username', 'createdAt', 'modifiedAt'] });
+    return this.userRepository.getUsers();
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    try {
-      const { password } = createUserDto;
-      createUserDto.password = this.hashHelper.hash(password);
-
-      const createdUser = await this.userRepository.save(createUserDto);
-      return createdUser;
-    } catch {
-      throw new ConflictException('User already exists');
-    }
+    return this.userRepository.createUser(createUserDto);
   }
 
   findUserById(userId: string): Promise<User> {
-    return this.userRepository.findOne(userId, { select: ['userId', 'username', 'createdAt', 'modifiedAt'] });
+    return this.userRepository.findUserById(userId);
   }
 
   findUserByName(username: string): Promise<User> {
-    return this.userRepository.findOne({ username: username });
+    return this.userRepository.findUserByName(username);
   }
 
   async changePassword(userId: string, password: string, userBodyDto: UserBody): Promise<UpdateResult> {
     if (userId !== userBodyDto.userId) throw new UnauthorizedException('Password can not be change by another user');
 
-    const user = await this.findUserById(userId);
-    if (!user) throw new NotFoundException('User not found');
-
-    return this.userRepository.update(userId, { password: this.hashHelper.hash(password) });
+    return this.userRepository.changeUserPassword(userId, this.hashHelper.hash(password));
   }
 
   async saveArticleToUser(userId: string, saveArticleDto: SaveArticleDto): Promise<UsersToArticles> {
-    const user = await this.findUserById(userId);
-    if (!user) throw new NotFoundException('User not found');
+    const user = await this.userRepository.findUserById(userId);
 
     const article = await this.articlesService.saveArticle(saveArticleDto);
 
@@ -70,25 +52,7 @@ export class UsersService {
   }
 
   async getUserArticles(userId: string): Promise<Article[]> {
-    const user = await this.findUserById(userId);
-    if (!user) throw new NotFoundException('User not found');
-
-    const x = await this.userRepository.findOne({
-      join: {
-        alias: 'user',
-        leftJoinAndSelect: {
-          usersToArticles: 'user.usersToArticles',
-          article: 'usersToArticles.article',
-        },
-      },
-      where: { userId: userId },
-    });
-
-    if (x && x.usersToArticles) {
-      return x.usersToArticles.map(rel => rel.article);
-    } else {
-      return [];
-    }
+    return this.userRepository.getUserArticles(userId);
   }
 
   async shareArticle(userId: string, shareArticleDto: ShareArticleDto): Promise<UsersToArticles> {

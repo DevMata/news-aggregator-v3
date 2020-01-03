@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Article } from './entities/articles.entity';
 import { ArticlesService } from './articles.service';
+import { ArticleRepository } from './repositories/articles.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Article])],
+  imports: [TypeOrmModule.forFeature([ArticleRepository])],
   providers: [ArticlesService],
   exports: [ArticlesService],
 })
