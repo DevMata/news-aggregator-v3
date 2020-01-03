@@ -89,7 +89,7 @@ As patterns, antipatterns are a way to solve or handle a common or well-known pr
 
 ## How to implement the Dependency Injection pattern in Typescript?
 
-For example, we can have this interface for define a contract about what our Databases must behave. Our DB class must implement this interface.
+For example, we can have this DB interface for define a contract about what our databases must behave. Our Database class must implement this interface.
 
 ```typescript
 interface DB {
@@ -105,7 +105,7 @@ class NosqlDatabase implements DB {
 }
 ```
 
-Now instead of instanciate our DB, in our client class we define an object with DB interface type. Next we define the constructor, which has as a parameter a object with a valid DB shape.
+Now instead of instanciate our database, in our client class we define an object with DB interface type. Next we define the constructor, which has as parameter an object with a valid DB shape.
 
 We can define a valid method who uses that private db object.
 
