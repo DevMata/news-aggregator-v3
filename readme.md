@@ -39,11 +39,13 @@ More examples of use cases of this API can be founded [here](https://documenter.
 
 ## Which patterns does Nest.JS use? Why? How are they implemented?
 
-1. Singleton: this is a main attribute of Nest, when we define our classes as providers, we can inject this classes, for this we define them as providers in module config, so when we share providers through modules, the instance of the injected class will be the same. Nest do this for optimize the use of resources.
+1. Singleton: this is a main attribute of Nest and is the default scope of any provider in Nest (unless we specify something different), when we define our classes as providers, we can inject this classes, for this we define them as providers in module config, so when we share providers through modules, the instance of the injected class will be the same. Nest do this for optimize the use of resources.
 
 2. Dependecy injection: through this pattern in Nest we can share software code to others units of code. The most common way for do this is decorate a class with @Injectable(), now we can provide this class, through a module, next in services and controller we can inject through the constructor, which is the most common and preferible point in Nest for inject a dependecy
 
 3. Decorator: Nest take advantage of Typescript decorator syntax for enrich class and objects. So in Nest we can use decorator within class declaration, method declaration, property declaration and parameter declaration, by doing this we can add a extra layer of logic or specify more about our code. For example when we use @Module(), we are saying to Nest that our class will be a module.
+
+4. Chain of responsability: Nest provides us with a very util types of middleware like guards, interceptors and pipes. This middlewares and our custom and simple middleware can implement our logic for validate authorization,data for example, when the logic results in a positive result the control will be passed to next middleware in the request flow.
 
 ## Which patterns can be used on your application? How those patterns could be implemented?
 
@@ -58,6 +60,8 @@ class ArticleRepository extends Repository<Article> {
   }
 }
 ```
+
+Why I use this pattern? If I implement this, I can encapsulate the logic related to a specific entity in the database. With that I can achieve more modularity in my API and agilize future testing at reducing coupling of code.
 
 2. Decorator: when I get a valid JWT in ChangePassword method, instead of getting the user as `req.user`, I can implement a parameter decorator for retrieving the user.
 
@@ -76,6 +80,8 @@ changePassword(@LoggedUser user:User){
     ...
 }
 ```
+
+Why I use this pattern? A decorator allow me to enrich my method parameters. Even add more logic to a defined object like the parameter I use for change the password of a user.
 
 ## What is an antipattern?
 
@@ -139,3 +145,9 @@ class Post {
   constructor(private readonly db: DataBase) {}
 }
 ```
+
+# Removed antipatterns
+
+1. Blob: one example on this antipattern in my API was the users service. In the first versions of this service I have a multiple functions more or less related with the logic behind users persistance. The file reached more than 100 lines of code. I think was an obvious antipattern for the size of the file, the coupled logic.
+
+2.
