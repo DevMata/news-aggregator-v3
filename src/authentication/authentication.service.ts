@@ -5,7 +5,7 @@ import { compareSync } from 'bcryptjs';
 import { UserBody } from './dto/userbody.dto';
 
 @Injectable()
-export class LoginService {
+export class AuthenticationService {
   constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
 
   async validateUser(username: string, password: string): Promise<UserBody> {

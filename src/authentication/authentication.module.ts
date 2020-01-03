@@ -1,6 +1,6 @@
 import { Module, HttpModule } from '@nestjs/common';
-import { LoginController } from './login.controller';
-import { LoginService } from './login.service';
+import { AuthenticationController } from './authentication.controller';
+import { AuthenticationService } from './authentication.service';
 import { UsersModule } from 'src/users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -22,8 +22,8 @@ import { LocalStrategy } from './strategies/local.strategy';
       }),
     }),
   ],
-  controllers: [LoginController],
-  providers: [LoginService, JwtStrategy, LocalStrategy],
-  exports: [LoginService],
+  controllers: [AuthenticationController],
+  providers: [AuthenticationService, JwtStrategy, LocalStrategy],
+  exports: [AuthenticationService],
 })
-export class LoginModule {}
+export class AuthenticationModule {}
