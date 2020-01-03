@@ -1,6 +1,6 @@
 import { Injectable, ConflictException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { UsersToArticles } from './entities/userstoarticles.entity';
+import { UsersToArticles } from './entities/users-to-articles.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { Article } from '../articles/entities/articles.entity';
